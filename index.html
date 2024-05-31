@@ -16,9 +16,9 @@
                 .then(data => {
                     const book1 = data.book1;
                     const bookInfo = `
-                        <p>Name: ${book1.Name}</p>
-                        <p>Book Number: ${book1["Book Number"]}</p>
-                        <p>Shelf Number: ${book1["Shelf Number"]}</p>
+                        <p>書籍名: ${book1.Name}</p>
+                        <p>請求番号: ${book1["Book Number"]}</p>
+                        <p>棚番号: ${book1["Shelf Number"]}</p>
                     `;
                     document.getElementById('jsonData').innerHTML = bookInfo;
                 })
@@ -29,12 +29,12 @@
     </script>
 </head>
 <body>
+    <div id="jsonData">
+        <!-- JSONデータがここに表示されます -->
+    </div>
     <h1>経路案内図</h1>
     <img src="image/map1.jpg" alt="二階" width="500">
     <img src="image/map2.jpg" alt="三階" width="500">
     <img src="image/map3.jpg" alt="四階" width="500">
-    <div id="jsonData">
-        <!-- JSONデータがここに表示されます -->
-    </div>
 </body>
 </html>
