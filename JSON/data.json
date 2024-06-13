@@ -1,1 +1,18 @@
-{"book1": {"Name": "Image Process", "Book Number": "119.3/LAB", "Shelf Number": "1193"}}
+[
+    {
+      "title": "プログラミング入門",
+      "request": "A12345",
+      "shelf": "A-01"
+    },
+    {
+      "title": "データ構造とアルゴリズム",
+      "request": "B67890",
+      "shelf": "B-02"
+    },
+    {
+      "title": "Webデザイン基礎",
+      "request": "C24680",
+      "shelf": "C-03"
+    }
+  ]
+  
