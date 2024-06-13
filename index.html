@@ -104,18 +104,17 @@
                     return response.json();
                 })
                 .then(data => {
-                    console.log(data); // デバッグ用に追加
-                    document.getElementById('book1_title').textContent += data[0].title;
-                    document.getElementById('book1_request').textContent += data[0].request;
-                    document.getElementById('book1_shelf').textContent += data[0].shelf;
+                    document.getElementById('book1_title').textContent = '書籍名：' + data[0].title;
+                    document.getElementById('book1_request').textContent = '請求番号：' + data[0].request;
+                    document.getElementById('book1_shelf').textContent = '棚番号：' + data[0].shelf;
 
-                    document.getElementById('book2_title').textContent += data[1].title;
-                    document.getElementById('book2_request').textContent += data[1].request;
-                    document.getElementById('book2_shelf').textContent += data[1].shelf;
+                    document.getElementById('book2_title').textContent = '書籍名：' + data[1].title;
+                    document.getElementById('book2_request').textContent = '請求番号：' + data[1].request;
+                    document.getElementById('book2_shelf').textContent = '棚番号：' + data[1].shelf;
 
-                    document.getElementById('book3_title').textContent += data[2].title;
-                    document.getElementById('book3_request').textContent += data[2].request;
-                    document.getElementById('book3_shelf').textContent += data[2].shelf;
+                    document.getElementById('book3_title').textContent = '書籍名：' + data[2].title;
+                    document.getElementById('book3_request').textContent = '請求番号：' + data[2].request;
+                    document.getElementById('book3_shelf').textContent = '棚番号：' + data[2].shelf;
                 })
                 .catch(error => console.error('There was a problem with the fetch operation:', error));
         });
@@ -152,7 +151,7 @@
         </div>
         <div class="image-container">
             <img class="image" src="image/3kai.PNG" alt="Image 3kai">
-            <img class="image" src="image/4kai.PNG?v=20240614084623" alt="Image 4kai">
+            <img class="image" src="image/4kai.PNG" alt="Image 4kai">
         </div>
     </div>
 </body>
