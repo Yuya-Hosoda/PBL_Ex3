@@ -96,7 +96,7 @@
     </style>
     <script>
         document.addEventListener("DOMContentLoaded", function() {
-            fetch('JSON/data.json')
+            fetch('JSON/data.json?v=' + new Date().getTime())
                 .then(response => {
                     if (!response.ok) {
                         throw new Error('Network response was not ok');
@@ -151,7 +151,7 @@
         </div>
         <div class="image-container">
             <img class="image" src="image/3kai.PNG" alt="Image 3kai">
-            <img class="image" src="image/4kai.PNG?v=20240614090052" alt="Image 4kai">
+            <img class="image" src="image/4kai.PNG" alt="Image 4kai">
         </div>
     </div>
 </body>
