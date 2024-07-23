@@ -178,12 +178,12 @@
 </div>
 
 <div class="image-container">
-    <img class="image" src="static/image/PathMap.png" alt="Image 1">
+    <img class="image" src="image/PathMap.png" alt="Map Image">
 </div>
 
 <script>
     // JSONデータを読み込んで書籍情報を表示する
-    fetch('static/JSON/BookInfo.json')
+    fetch('JSON/BookInfo.json?v=' + new Date().getTime())
         .then(response => {
             if (!response.ok) {
                 throw new Error('Network response was not ok ' + response.statusText);
