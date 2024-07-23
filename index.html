@@ -5,81 +5,107 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>経路案内図</title>
     <style>
-        * {
-            box-sizing: border-box;
-        }
         body {
             font-family: Arial, sans-serif;
+            background-color: #f0f0f0;
             margin: 0;
             padding: 0;
-        }
-        .container {
-            max-width: 1200px;
-            margin: 20px auto;
-            padding: 0 20px;
-        }
-        .card-container {
             display: flex;
-            flex-wrap: wrap;
-            justify-content: space-between;
-            margin-bottom: 20px;
-        }
-        .card {
-            width: calc(33.33% - 10px);
-            border-radius: 10px;
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-            text-align: left;
-            overflow: hidden;
-            position: relative;
-            margin-bottom: 20px;
-        }
-        @media (max-width: 768px) {
-            .card {
-                width: calc(50% - 10px);
-            }
-        }
-        @media (max-width: 480px) {
-            .card {
-                width: 100%;
-            }
-        }
-        .card h2 {
-            color: white;
-            margin: 0;
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-        }
-        .card-header {
-            height: 20%;
-            display: flex;
+            flex-direction: column;
             align-items: center;
-            justify-content: center;
+        }
+        header {
+            background-color: #4CAF50;
             color: white;
+            width: 100%;
+            padding: 10px 0;
+            text-align: center;
             font-size: 24px;
             font-weight: bold;
         }
-        .card-content {
-            padding: 20px;
+        .container {
+            width: 400px; /*横幅の調整*/
+            margin: 20px 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            position: relative;
+            max-height: 30vh; /*スクロール表示部分の調整*/
+            overflow-y: auto;
+            padding-top: 20px;
         }
-        .card p {
-            font-size: 18px;
-            margin-bottom: 5px;
+        .box {
+            display: flex;
+            align-items: center;
+            border-radius: 10px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+            margin-bottom: 20px;
+            background-color: white;
+            transition: box-shadow 0.3s ease;
+            height: 80px;
+            width: 100%;
+            position: relative;
         }
-        .card:nth-child(1) .card-header {
-            background-color: #cc0000; /* 赤 */
+        .box:hover {
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
         }
-        .card:nth-child(2) .card-header {
-            background-color: #0000cc; /* 青 */
+        .box .number {
+            width: 40px;
+            height: 80px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 24px;
+            font-weight: bold;
+            color: white;
+            border-radius: 10px 0 0 10px;
         }
-        .card:nth-child(3) .card-header {
-            background-color: #009900; /* 緑 */
+        .box .content {
+            padding: 10px;
+            flex-grow: 1;
+        }
+        .box1 .number {
+            background-color: red;
+        }
+        .box2 .number {
+            background-color: blue;
+        }
+        .box3 .number {
+            background-color: green;
+        }
+        .box4 .number {
+            background-color: cyan;
+        }
+        .box5 .number {
+            background-color: magenta;
+        }
+        .box6 .number {
+            background-color: yellow;
+            color: black;
+        }
+        .connector {
+            position: absolute;
+            width: 4px;
+            background-color: gray;
+            top: 20px;
+            bottom: 20px;
+            left: 20px;
+            z-index: -1;
+        }
+        .box:not(:last-child)::after {
+            content: '';
+            position: absolute;
+            width: 4px;
+            height: 20px;
+            background-color: gray;
+            bottom: -20px;
+            left: 20px;
+            z-index: -1;
         }
         .image-container {
             display: flex;
             flex-wrap: wrap;
-            justify-content: space-between;
+            justify-content: center;
             margin-top: 20px;
         }
         .image {
@@ -94,65 +120,103 @@
             }
         }
     </style>
-    <script>
-        document.addEventListener("DOMContentLoaded", function() {
-            fetch('JSON/data.json?v=' + new Date().getTime())
-                .then(response => {
-                    if (!response.ok) {
-                        throw new Error('Network response was not ok');
-                    }
-                    return response.json();
-                })
-                .then(data => {
-                    document.getElementById('book1_title').textContent = '書籍名：' + data[0].title;
-                    document.getElementById('book1_request').textContent = '請求番号：' + data[0].request;
-                    document.getElementById('book1_shelf').textContent = '棚番号：' + data[0].shelf;
-
-                    document.getElementById('book2_title').textContent = '書籍名：' + data[1].title;
-                    document.getElementById('book2_request').textContent = '請求番号：' + data[1].request;
-                    document.getElementById('book2_shelf').textContent = '棚番号：' + data[1].shelf;
-
-                    document.getElementById('book3_title').textContent = '書籍名：' + data[2].title;
-                    document.getElementById('book3_request').textContent = '請求番号：' + data[2].request;
-                    document.getElementById('book3_shelf').textContent = '棚番号：' + data[2].shelf;
-                })
-                .catch(error => console.error('There was a problem with the fetch operation:', error));
-        });
-    </script>
 </head>
 <body>
-    <h1>図書館経路案内</h1>
-    <div class="container">
-        <div class="card-container">
-            <div class="card">
-                <div class="card-header">1番目</div>
-                <div class="card-content">
-                    <p id="book1_title">書籍名：</p>
-                    <p id="book1_request">請求番号：</p>
-                    <p id="book1_shelf">棚番号：</p>
-                </div>
-            </div>
-            <div class="card">
-                <div class="card-header">2番目</div>
-                <div class="card-content">
-                    <p id="book2_title">書籍名：</p>
-                    <p id="book2_request">請求番号：</p>
-                    <p id="book2_shelf">棚番号：</p>
-                </div>
-            </div>
-            <div class="card">
-                <div class="card-header">3番目</div>
-                <div class="card-content">
-                    <p id="book3_title">書籍名：</p>
-                    <p id="book3_request">請求番号：</p>
-                    <p id="book3_shelf">棚番号：</p>
-                </div>
-            </div>
-        </div>
-        <div class="image-container">
-            <img class="image" src="image/3kai.PNG" alt="Image 3kai">
-            <img class="image" src="image/4kai.PNG?v=20240614092114" alt="Image 4kai">
+
+<header>大阪大学総合図書館 経路案内</header>
+
+<div class="container">
+    <div class="connector"></div>
+    <div class="box box1">
+        <div class="number">1</div>
+        <div class="content">
+            書籍名：<span id="book1_title"></span><br>
+            請求番号：<span id="book1_request"></span><br>
+            棚番号：<span id="book1_shelf"></span>
         </div>
     </div>
+    <div class="box box2">
+        <div class="number">2</div>
+        <div class="content">
+            書籍名：<span id="book2_title"></span><br>
+            請求番号：<span id="book2_request"></span><br>
+            棚番号：<span id="book2_shelf"></span>
+        </div>
+    </div>
+    <div class="box box3">
+        <div class="number">3</div>
+        <div class="content">
+            書籍名：<span id="book3_title"></span><br>
+            請求番号：<span id="book3_request"></span><br>
+            棚番号：<span id="book3_shelf"></span>
+        </div>
+    </div>
+    <div class="box box4">
+        <div class="number">4</div>
+        <div class="content">
+            書籍名：<span id="book4_title"></span><br>
+            請求番号：<span id="book4_request"></span><br>
+            棚番号：<span id="book4_shelf"></span>
+        </div>
+    </div>
+    <div class="box box5">
+        <div class="number">5</div>
+        <div class="content">
+            書籍名：<span id="book5_title"></span><br>
+            請求番号：<span id="book5_request"></span><br>
+            棚番号：<span id="book5_shelf"></span>
+        </div>
+    </div>
+    <div class="box box6">
+        <div class="number">6</div>
+        <div class="content">
+            書籍名：<span id="book6_title"></span><br>
+            請求番号：<span id="book6_request"></span><br>
+            棚番号：<span id="book6_shelf"></span>
+        </div>
+    </div>
+</div>
+
+<div class="image-container">
+    <img class="image" src="static/images/PathMap.png" alt="Image 1">
+</div>
+
+<script>
+    // JSONデータを読み込んで書籍情報を表示する
+    fetch('static/JSON/BookInfo.json')
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Network response was not ok ' + response.statusText);
+            }
+            return response.json();
+        })
+        .then(data => {
+            document.getElementById('book1_title').textContent = data[0].書籍名;
+            document.getElementById('book1_request').textContent = data[0].請求番号;
+            document.getElementById('book1_shelf').textContent = data[0].棚番号;
+
+            document.getElementById('book2_title').textContent = data[1].書籍名;
+            document.getElementById('book2_request').textContent = data[1].請求番号;
+            document.getElementById('book2_shelf').textContent = data[1].棚番号;
+
+            document.getElementById('book3_title').textContent = data[2].書籍名;
+            document.getElementById('book3_request').textContent = data[2].請求番号;
+            document.getElementById('book3_shelf').textContent = data[2].棚番号;
+
+            document.getElementById('book4_title').textContent = data[3].書籍名;
+            document.getElementById('book4_request').textContent = data[3].請求番号;
+            document.getElementById('book4_shelf').textContent = data[3].棚番号;
+
+            document.getElementById('book5_title').textContent = data[4].書籍名;
+            document.getElementById('book5_request').textContent = data[4].請求番号;
+            document.getElementById('book5_shelf').textContent = data[4].棚番号;
+
+            document.getElementById('book6_title').textContent = data[5].書籍名;
+            document.getElementById('book6_request').textContent = data[5].請求番号;
+            document.getElementById('book6_shelf').textContent = data[5].棚番号;
+        })
+        .catch(error => console.error('Error fetching data:', error));
+</script>
+
 </body>
 </html>
